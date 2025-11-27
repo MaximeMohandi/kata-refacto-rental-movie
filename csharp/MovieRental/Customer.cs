@@ -1,33 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace MovieRental
 {
     public class Customer
     {
 
-        private string _name;
-        private List<Rental> _rentals = new List<Rental>();
+        private readonly string _name;
+        private readonly List<Rental> _rentals = new List<Rental>();
 
         public Customer(string name)
         {
             _name = name;
         }
 
-        public void addRental(Rental arg)
+        public void AddRental(Rental arg)
         {
             _rentals.Add(arg);
         }
 
-        public string getName()
-        {
-            return _name;
-        }
-
-        public string statement()
+        public string Statement()
         {
             double totalAmount = 0;
             int frequentRenterPoints = 0;
-            string result = "Rental Record for " + getName() + "\n";
+            var statement = new StringBuilder("Rental Record for " + _name + "\n");
 
             foreach (Rental each in _rentals)
             {
@@ -58,15 +55,15 @@ namespace MovieRental
                     frequentRenterPoints++;
 
                 // show figures for this rental
-                result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount.ToString() + "\n";
+                statement.Append("\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n");
                 totalAmount += thisAmount;
             }
 
             // add footer lines
-            result += "Amount owed is " + totalAmount.ToString() + "\n";
-            result += "You earned " + frequentRenterPoints.ToString() + " frequent renter points";
+            statement.Append("Amount owed is " + totalAmount + "\n");
+            statement.Append("You earned " + frequentRenterPoints + " frequent renter points");
 
-            return result;
+            return statement.ToString();
         }
     }
 
